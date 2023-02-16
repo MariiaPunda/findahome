@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, createRef } from 'react'
 import { useFela } from 'react-fela'
-import { MapContainer, TileLayer } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker } from 'react-leaflet'
 import Action from '../../shared/Action'
 import VisuallyHidden from '../../shared/VisuallyHidden'
 import Card from '../../shared/Card'
@@ -12,6 +12,7 @@ import styles from './styles'
 const App = () => {
   const { css } = useFela()
   const [homes, setHomes] = useState([])
+  const [mapCenter, setMapCenter] = useState(undefined)
   const [error, setError] = useState()
 
   useEffect(() => {
@@ -20,7 +21,15 @@ const App = () => {
     })
       .then(response => response.json())
       .then(data => {
-        setHomes(data?.items ?? [])
+        if (data?.items.length > 0) {
+          const homesList = data.items
+          homesList.forEach(home => (home.ref = createRef()))
+
+          setMapCenter([homesList[0].position.lat, homesList[0].position.lng])
+          setHomes(homesList)
+        } else {
+          setError('No homes found')
+        }
       })
       .catch(error => setError(error?.message))
   }, [])
@@ -39,17 +48,37 @@ const App = () => {
       <main role='main' id='main'>
         <VisuallyHidden as='h1'>Find a home for rent</VisuallyHidden>
         <div id='map'>
-          <MapContainer
-            center={[51.505, -0.09]}
-            zoom={13}
-            scrollWheelZoom={false}
-            style={{ width: '100%', height: '100vh' }}
-          >
-            <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-            />
-          </MapContainer>
+          {Boolean(mapCenter) && (
+            <MapContainer
+              center={mapCenter}
+              zoom={20}
+              scrollWheelZoom={false}
+              style={{ width: '100%', height: '100vh' }}
+            >
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+              />
+              {homes.map(home => {
+                return (
+                  <Marker
+                    key={`marker-${home.title}`}
+                    position={[home.position.lat, home.position.lng]}
+                    eventHandlers={{
+                      click: () => {
+                        if (home.ref?.current) {
+                          home.ref.current.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start',
+                          })
+                        }
+                      },
+                    }}
+                  ></Marker>
+                )
+              })}
+            </MapContainer>
+          )}
         </div>
         <div className={css(styles.homesSection)}>
           <div id='homes' className={css(styles.homes)}>
@@ -60,7 +89,7 @@ const App = () => {
                 } km from the city center`
 
                 return (
-                  <Card key={home?.title} extend={styles.card}>
+                  <Card key={home?.title} extend={styles.card} ref={home.ref}>
                     <div className={css(styles.contentWrapper)}>
                       <img
                         src={homeImage}
