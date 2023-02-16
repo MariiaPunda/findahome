@@ -24,7 +24,66 @@ const link = {
   },
 }
 
+const homesSection = {
+  backgroundColor: 'transparent',
+  position: 'absolute',
+  padding: 'var(--spacing-xs)',
+  bottom: 0,
+  width: '100%',
+  zIndex: 999,
+}
+
+const homes = {
+  display: 'flex',
+  gap: 'var(--spacing-s)',
+  overflowX: 'scroll',
+  scrollSnapType: 'x mandatory',
+  height: '100%',
+  width: '100%',
+}
+
+const card = {
+  minWidth: '20rem',
+  width: '15rem',
+}
+
+const contentWrapper = {
+  display: 'flex',
+}
+
+const textWrapper = {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  paddingLeft: 'var(--spacing-m)',
+}
+
+const image = {
+  height: '10rem',
+}
+
+const label = {
+  margin: 0,
+}
+
+const button = {
+  marginTop: 'var(--spacing-m)',
+}
+
+const error = {
+  color: 'red',
+}
+
 export default {
   header,
   link,
+  homesSection,
+  homes,
+  card,
+  contentWrapper,
+  textWrapper,
+  image,
+  label,
+  button,
+  error,
 }
