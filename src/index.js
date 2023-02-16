@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RendererProvider } from 'react-fela'
-import App from './components/App'
+import App from './components/main/App'
 import createRenderer from './styles/createRenderer'
 import renderStatic from './styles/renderStatic'
 

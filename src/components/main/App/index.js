@@ -1,7 +1,8 @@
 import { useFela } from 'react-fela'
 import styles from './styles'
 import Logo from './Logo'
-import VisuallyHidden from '../VisuallyHidden'
+import Action from '../../shared/Action'
+import VisuallyHidden from '../../shared/VisuallyHidden'
 
 const App = () => {
   const { css } = useFela()
@@ -9,15 +10,17 @@ const App = () => {
   return (
     <>
       <header role='banner' className={css(styles.header)}>
-        <a href='#main' className={css(styles.link)}>
+        <Action href='#main' extend={styles.link}>
           Skip to main content
-        </a>
-        <a href='/'>
+        </Action>
+        <Action href='/'>
           <Logo />
           <VisuallyHidden>Home</VisuallyHidden>
-        </a>
+        </Action>
       </header>
-      <main role='main' id='main'></main>
+      <main role='main' id='main'>
+        <VisuallyHidden as='h1'>Find a home for rent</VisuallyHidden>
+      </main>
     </>
   )
 }

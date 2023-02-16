@@ -1,5 +1,5 @@
 const header = {
-  backgroundColor: '#F5F5F5',
+  backgroundColor: 'var(--background-secondary)',
   padding: '1em',
 }
 
@@ -10,10 +10,10 @@ const link = {
   position: 'absolute',
   whiteSpace: 'nowrap',
   width: '1px',
-  backgroundColor: '#F5F5F5',
-  padding: '0.25em',
-  top: '1em',
-  left: '1em',
+  backgroundColor: 'var(--background-secondary)',
+  padding: 'var(--spacing-xs)',
+  top: 'var(--spacing-m)',
+  left: 'var(--spacing-m)',
   zIndex: 2,
 
   ':focus': {
