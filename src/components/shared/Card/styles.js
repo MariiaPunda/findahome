@@ -1,5 +1,5 @@
 const card = {
-  padding: 'var(--sizing-xs)',
+  padding: 'var(--spacing-m)',
   backgroundColor: 'var(--background-main)',
 }
 

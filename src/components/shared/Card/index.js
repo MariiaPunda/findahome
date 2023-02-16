@@ -5,7 +5,11 @@ import styles from './styles'
 const Card = ({ as: Component = 'div', ...props }) => {
   const { css } = useFela()
 
-  return <Component className={css(styles.card)}>{props.children}</Component>
+  return (
+    <Component className={css([styles.card, props.extend])}>
+      {props.children}
+    </Component>
+  )
 }
 
 Card.propTypes = {

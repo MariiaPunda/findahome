@@ -9,6 +9,7 @@ const Text = ({
   isBold,
   color,
   isCentered,
+  isUppercase,
   extend,
   ...props
 }) => {
@@ -17,6 +18,7 @@ const Text = ({
     isBold,
     color,
     isCentered,
+    isUppercase,
   })
 
   return <Component {...props} className={css([styles.text, extend])} />
@@ -28,6 +30,7 @@ Text.defaultProps = {
   color: 'main',
   isBold: false,
   isCentered: false,
+  isUppercase: false,
 }
 
 Text.propTypes = {
@@ -37,6 +40,7 @@ Text.propTypes = {
   color: PropTypes.oneOf(TEXT_COLORS),
   spacing: PropTypes.object,
   isCentered: PropTypes.bool,
+  isUppercase: PropTypes.bool,
 }
 
 export default Text

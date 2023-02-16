@@ -2,14 +2,17 @@ import PropTypes from 'prop-types'
 import { useFela } from 'react-fela'
 import styles from './styles'
 
-const Action = ({ as, extend, children, ...props }) => {
+const THEMES = ['primary']
+
+const Action = ({ as, extend, theme, children, ...props }) => {
   const { css } = useFela()
   const Component = as || (props.href ? 'a' : 'button')
+  const actionStyles = THEMES.includes(theme) ? styles[theme] : styles.button
 
   return (
     <Component
       type={Component === 'button' ? props.type || 'button' : undefined}
-      className={css([styles.action, extend])}
+      className={css([actionStyles, extend])}
       {...props}
     >
       {children}
