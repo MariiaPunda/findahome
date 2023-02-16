@@ -19,7 +19,7 @@ export default renderer => {
   renderer.renderStatic(
     {
       margin: 0,
-      lineHeight: 1.45,
+      lineHeight: 1.2,
       overflowX: 'hidden',
       fontFamily: 'Arial, sans-serif',
     },
@@ -30,20 +30,21 @@ export default renderer => {
     {
       '--background-main': '#FFFFFF',
       '--background-secondary': '#F5F5F5',
-      '--background-action': '##E37C27',
+      '--background-action': '#f7892d',
+      '--background-action-hover': '#f26f02', //#f26f02
       '--typography-main': '#000000',
-      '--typography-secondary': '#D3D3D3',
+      '--typography-secondary': '#737373',
       '--typography-action': '#FFFFFF',
       '--spacing-xs': '0.25rem',
       '--spacing-s': '0.5rem',
       '--spacing-m': '1rem',
       '--spacing-l': '1.25rem',
       '--spacing-xl': '1.5rem',
-      '--font-size-xs': '0.8rem',
-      '--font-size-s': '1rem',
-      '--font-size-m': '1.25rem',
-      '--font-size-l': '1.5rem',
-      '--font-size-xl': '1.75rem',
+      '--font-size-xs': '0.75rem', // 12px
+      '--font-size-s': '0.9rem', // 14px
+      '--font-size-m': '1rem', // 16px
+      '--font-size-l': '1.25rem', // 20px
+      '--font-size-xl': '1.5rem', // 24px
     },
     ':root'
   )
