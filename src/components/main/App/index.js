@@ -1,6 +1,7 @@
 import { useEffect, useState, createRef } from 'react'
 import { useFela } from 'react-fela'
 import { MapContainer, TileLayer, Marker } from 'react-leaflet'
+import L from 'leaflet'
 import Action from '../../shared/Action'
 import VisuallyHidden from '../../shared/VisuallyHidden'
 import Card from '../../shared/Card'
@@ -9,10 +10,21 @@ import homeImage from './home-image.png'
 import Logo from './Logo'
 import styles from './styles'
 
+const MarkerIcon = L.icon({
+  iconUrl: require('./home-icon.png'),
+  iconSize: [50, 50],
+})
+
+const MarkerActiveIcon = L.icon({
+  iconUrl: require('./home-icon-active.png'),
+  iconSize: [50, 50],
+})
+
 const App = () => {
   const { css } = useFela()
   const [homes, setHomes] = useState([])
-  const [mapCenter, setMapCenter] = useState(undefined)
+  const [mapCenter, setMapCenter] = useState()
+  const [activeMarker, setActiveMarker] = useState()
   const [error, setError] = useState()
 
   useEffect(() => {
@@ -53,7 +65,7 @@ const App = () => {
               center={mapCenter}
               zoom={20}
               scrollWheelZoom={false}
-              style={{ width: '100%', height: '100vh' }}
+              style={{ width: '100%', height: 'calc(100vh - 2.5rem)' }}
             >
               <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -64,8 +76,14 @@ const App = () => {
                   <Marker
                     key={`marker-${home.title}`}
                     position={[home.position.lat, home.position.lng]}
+                    icon={
+                      activeMarker === home.title
+                        ? MarkerActiveIcon
+                        : MarkerIcon
+                    }
                     eventHandlers={{
                       click: () => {
+                        setActiveMarker(home.title)
                         if (home.ref?.current) {
                           home.ref.current.scrollIntoView({
                             behavior: 'smooth',
@@ -89,7 +107,11 @@ const App = () => {
                 } km from the city center`
 
                 return (
-                  <Card key={home?.title} extend={styles.card} ref={home.ref}>
+                  <Card
+                    key={home?.title}
+                    extend={styles.card(activeMarker === home.title)}
+                    ref={home.ref}
+                  >
                     <div className={css(styles.contentWrapper)}>
                       <img
                         src={homeImage}

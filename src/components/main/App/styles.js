@@ -42,10 +42,14 @@ const homes = {
   width: '100%',
 }
 
-const card = {
+const card = activeMarker => ({
   minWidth: '20rem',
   width: '15rem',
-}
+  border: '2px solid transparent',
+  ...(activeMarker && {
+    border: '2px solid var(--background-action)',
+  }),
+})
 
 const contentWrapper = {
   display: 'flex',
