@@ -30,11 +30,12 @@ export default renderer => {
     {
       '--background-main': '#FFFFFF',
       '--background-secondary': '#F5F5F5',
-      '--background-action': '#f7892d',
-      '--background-action-hover': '#f26f02', //#f26f02
+      '--background-action': '#F7892D',
+      '--background-action-hover': '#F26F02',
       '--typography-main': '#000000',
       '--typography-secondary': '#737373',
       '--typography-action': '#FFFFFF',
+      '--typography-alert': '#D40902',
       '--spacing-xs': '0.25rem',
       '--spacing-s': '0.5rem',
       '--spacing-m': '1rem',

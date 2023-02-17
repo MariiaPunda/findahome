@@ -3,15 +3,17 @@ import PropTypes from 'prop-types'
 import { useFela } from 'react-fela'
 import styles from './styles'
 
-const Card = forwardRef(({ as: Component = 'div', ...props }, ref) => {
-  const { css } = useFela()
+const Card = forwardRef(
+  ({ as: Component = 'div', extend, children, ...props }, ref) => {
+    const { css } = useFela()
 
-  return (
-    <Component ref={ref} className={css([styles.card, props.extend])}>
-      {props.children}
-    </Component>
-  )
-})
+    return (
+      <Component ref={ref} className={css([styles.card, extend])} {...props}>
+        {children}
+      </Component>
+    )
+  }
+)
 
 Card.displayName = 'Card'
 

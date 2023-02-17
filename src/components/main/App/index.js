@@ -1,30 +1,24 @@
 import { useEffect, useState, createRef } from 'react'
 import { useFela } from 'react-fela'
-import { MapContainer, TileLayer, Marker } from 'react-leaflet'
-import L from 'leaflet'
+import { MapContainer, TileLayer, useMap } from 'react-leaflet'
 import Action from '../../shared/Action'
 import VisuallyHidden from '../../shared/VisuallyHidden'
-import Card from '../../shared/Card'
 import Text from '../../shared/Text'
-import homeImage from './home-image.png'
+import MapMarker from '../MapMarker'
+import HomeCard from '../HomeCard'
 import Logo from './Logo'
 import styles from './styles'
 
-const MarkerIcon = L.icon({
-  iconUrl: require('./home-icon.png'),
-  iconSize: [50, 50],
-})
+const SetMapCenter = ({ position }) => {
+  const map = useMap()
 
-const MarkerActiveIcon = L.icon({
-  iconUrl: require('./home-icon-active.png'),
-  iconSize: [50, 50],
-})
+  map.setView(position, map.getZoom())
+}
 
 const App = () => {
   const { css } = useFela()
   const [homes, setHomes] = useState([])
   const [mapCenter, setMapCenter] = useState()
-  const [activeMarker, setActiveMarker] = useState()
   const [error, setError] = useState()
 
   useEffect(() => {
@@ -67,38 +61,25 @@ const App = () => {
               scrollWheelZoom={false}
               style={{ width: '100%', height: 'calc(100vh - 2.5rem)' }}
             >
+              <SetMapCenter position={mapCenter} />
               <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
               />
               {homes.map(home => {
                 return (
-                  <Marker
+                  <MapMarker
                     key={`marker-${home.title}`}
-                    position={[home.position.lat, home.position.lng]}
-                    icon={
-                      activeMarker === home.title
-                        ? MarkerActiveIcon
-                        : MarkerIcon
-                    }
-                    eventHandlers={{
-                      click: () => {
-                        setActiveMarker(home.title)
-                        if (home.ref?.current) {
-                          home.ref.current.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start',
-                          })
-                        }
-                      },
-                    }}
-                  ></Marker>
+                    home={home}
+                    mapCenter={mapCenter}
+                    setMapCenter={setMapCenter}
+                  />
                 )
               })}
             </MapContainer>
           )}
         </div>
-        <div className={css(styles.homesSection)}>
+        <div className={css(styles.homesSection(Boolean(error)))}>
           <div id='homes' className={css(styles.homes)}>
             {homes.length > 0 &&
               homes.map(home => {
@@ -107,57 +88,17 @@ const App = () => {
                 } km from the city center`
 
                 return (
-                  <Card
-                    key={home?.title}
-                    extend={styles.card(activeMarker === home.title)}
-                    ref={home.ref}
-                  >
-                    <div className={css(styles.contentWrapper)}>
-                      <img
-                        src={homeImage}
-                        alt='Home interior'
-                        className={css(styles.image)}
-                      />
-                      <div className={css(styles.textWrapper)}>
-                        <div>
-                          <Text as='h2' size='m' isBold extend={styles.label}>
-                            {home?.address.city}
-                          </Text>
-                          <Text size='s' isBold extend={styles.label}>
-                            {home?.address.street}
-                          </Text>
-                          <Text size='xs' color='secondary' isBold isUppercase>
-                            {distanceFromCenter}
-                          </Text>
-                        </div>
-                        <div>
-                          <Text
-                            size='xl'
-                            isBold
-                            isUppercase
-                            extend={styles.label}
-                          >
-                            98$
-                          </Text>
-                          <Text as='span' color='secondary' size='s'>
-                            Designs may vary
-                          </Text>
-                        </div>
-                      </div>
-                    </div>
-                    <Action theme='primary' extend={styles.button}>
-                      Book
-                    </Action>
-                  </Card>
+                  <HomeCard
+                    key={`home-${home?.title}`}
+                    home={home}
+                    distanceFromCenter={distanceFromCenter}
+                    mapCenter={mapCenter}
+                    setMapCenter={setMapCenter}
+                  />
                 )
               })}
-            <Text
-              as='p'
-              aria-live='assertive'
-              role='alert'
-              className={css(styles.error)}
-            >
-              {error}
+            <Text as='p' aria-live='assertive' role='alert' color='alert'>
+              {'Hello'} {error}
             </Text>
           </div>
         </div>
