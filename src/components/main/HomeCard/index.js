@@ -17,16 +17,24 @@ const HomeCard = ({ home, distanceFromCenter, mapCenter, setMapCenter }) => {
       onClick={() => {
         setMapCenter([home.position.lat, home.position.lng])
       }}
+      data-cy='home-card'
     >
       <div className={css(styles.contentWrapper)}>
         <img
           src={homeImage}
           alt='Home interior'
           className={css(styles.image)}
+          data-cy='home-image'
         />
         <div className={css(styles.textWrapper)}>
           <div>
-            <Text as='h2' size='m' isBold extend={styles.label}>
+            <Text
+              as='h2'
+              size='m'
+              isBold
+              extend={styles.label}
+              data-cy='home-title'
+            >
               {home?.address.city}
             </Text>
             <Text size='s' isBold extend={styles.label}>
@@ -46,7 +54,7 @@ const HomeCard = ({ home, distanceFromCenter, mapCenter, setMapCenter }) => {
           </div>
         </div>
       </div>
-      <Action theme='primary' extend={styles.button}>
+      <Action theme='primary' extend={styles.button} data-cy='home-button'>
         Book
       </Action>
     </Card>

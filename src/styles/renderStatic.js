@@ -34,7 +34,7 @@ export default renderer => {
       '--background-action-hover': '#F26F02',
       '--typography-main': '#000000',
       '--typography-secondary': '#737373',
-      '--typography-action': '#FFFFFF',
+      '--typography-action': '#000000',
       '--typography-alert': '#D40902',
       '--spacing-xs': '0.25rem',
       '--spacing-s': '0.5rem',

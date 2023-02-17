@@ -53,7 +53,7 @@ const App = () => {
       </header>
       <main role='main' id='main'>
         <VisuallyHidden as='h1'>Find a home for rent</VisuallyHidden>
-        <div id='map'>
+        <div id='map' data-cy='map'>
           {Boolean(mapCenter) && (
             <MapContainer
               center={mapCenter}
